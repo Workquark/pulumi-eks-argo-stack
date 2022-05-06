@@ -9,13 +9,15 @@ metadata:
 spec:
   project: production
   source:
-    repoURL: https://github.com/vfarcic/argo-combined-demo.git
+    repoURL: https://github.com/kubernetes/ingress-nginx.git
     targetRevision: HEAD
-    path: production
+    path: deploy/static/provider/cloud
   destination:
     server: https://kubernetes.default.svc
-    namespace: production
+    namespace: ingress-nginx
   syncPolicy:
     automated:
       selfHeal: true
       prune: true
+  syncOptions:
+    - CreateNamespace=true
