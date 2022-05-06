@@ -4,3 +4,6 @@ resources:
   - ../../base
   - ingress.yaml
 namespace: argocd
+patchesStrategicMerge:
+  - server.yaml
+  - repo-server.yaml
