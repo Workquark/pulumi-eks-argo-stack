@@ -11,15 +11,16 @@ import * as pulumi from "@pulumi/pulumi"
 
 
 // Create an EKS cluster with the default configuration.
-export const cluster = new eks.Cluster("pulumi-eks", {
-  name: "PULUMI-EKS-CLUSTER",
+export const pulumiEKSCluster = new eks.Cluster("Pulumi-EKS", {
+  name: "PULUMI-EKS-CLUSTER-01",
+  skipDefaultNodeGroup: true,
   vpcId: vpc.vpc_main.id,
   // publicSubnetIds: vpc.vpc_main.publicSubnetIds,
   privateSubnetIds: vpc.vpc_main.privateSubnetIds,
   nodeAssociatePublicIpAddress: false,
-  desiredCapacity: 1,
-  minSize: 1,
-  maxSize: 2,
+  // desiredCapacity: 1,
+  // minSize: 1,
+  // maxSize: 2,
   endpointPrivateAccess: true,
   endpointPublicAccess: true,
   enabledClusterLogTypes: [
@@ -61,9 +62,9 @@ const example_AmazonEC2ContainerRegistryReadOnly = new aws.iam.RolePolicyAttachm
 
 
 
-const example = new aws.eks.NodeGroup("Pulumi-EKS-Nodegroup", {
+const pulumiEksNodegroup = new aws.eks.NodeGroup("Pulumi-EKS-Nodegroup", {
   nodeGroupName: "Pulumi-EKS-Nodegroup",
-  clusterName: cluster.eksCluster.name,
+  clusterName: pulumiEKSCluster.eksCluster.name,
   nodeRoleArn: nodeRole.arn,
   subnetIds: vpc.vpc_main.privateSubnetIds,
   scalingConfig: {
@@ -82,9 +83,25 @@ const example = new aws.eks.NodeGroup("Pulumi-EKS-Nodegroup", {
   ],
 });
 
+const vpcCNI = new aws.eks.Addon("vpc-cni", {
+  clusterName: pulumiEKSCluster.eksCluster.name,
+  addonName: "vpc-cni",
+});
+
+
+
+const coreDNS = new aws.eks.Addon("coredns", {
+  clusterName: pulumiEKSCluster.eksCluster.name,
+  addonName: "coredns",
+});
+
+const ebsCSIDriver = new aws.eks.Addon("ebsCSIdriver", {
+  clusterName: pulumiEKSCluster.eksCluster.name,
+  addonName: "aws-ebs-csi-driver",
+});
 
 
 
 
 // Export the cluster's kubeconfig.
-export const kubeconfig = cluster.kubeconfig;
+export const kubeconfig = pulumiEKSCluster.kubeconfig;
