@@ -19,4 +19,4 @@ spec:
                 name: argocd-server
                 port:
                   number: 80
-      host: adb86831f518d4d359824ff2a0661111-2e1ab5874c28a166.elb.eu-west-1.amazonaws.com
+      host: joydeep.tk
