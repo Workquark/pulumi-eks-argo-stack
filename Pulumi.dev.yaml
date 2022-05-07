@@ -1,3 +1,4 @@
 encryptionsalt: v1:QY/QSW7y700=:v1:vI4Jz14Eht5xIUE7:zQarQd4P7+0hwRa64AMV5l6WDq8pqg==
 config:
+  aws:profile: JROY-GCP-01
   aws:region: eu-west-1

@@ -6,6 +6,10 @@
   > put this in .zshrc/.bashrc for local
   
     export PULUMI_CONFIG_PASSPHRASE="pulumi"
+  
+  > set the aws profile for the setup
+
+    pulumi config set aws:profile <profileName>
 
   > -s option is for stack. Here dev is the stack and -y is basically approval for --yes parameter.
 
