@@ -23,7 +23,14 @@ export const pulumiEKSCluster = new eks.Cluster("Pulumi-EKS", {
   ],
   providerCredentialOpts: {
     profileName: aws.config.profile
-  }
+  },
+  // roleMappings: [
+  //   {
+  //     groups: ["system:masters"],
+  //     roleArn: clusterAdminRole.arn,
+  //     username: "pulumi:admin-usr",
+  //   },
+  // ],
 });
 
 const nodeRole = new aws.iam.Role("eksNodeRole", {
