@@ -5,7 +5,6 @@ import * as aws from "@pulumi/aws";
 // Create an EKS cluster with the default configuration.
 export const pulumiEKSCluster = new eks.Cluster("Pulumi-EKS", {
   name: "PULUMI-EKS-CLUSTER-01",
-  version: "1.22.6",
   skipDefaultNodeGroup: true,
   vpcId: vpc.vpc_main.id,
   // publicSubnetIds: vpc.vpc_main.publicSubnetIds,
@@ -67,8 +66,8 @@ const pulumiEksNodegroup = new aws.eks.NodeGroup("Pulumi-EKS-Nodegroup", {
   nodeRoleArn: nodeRole.arn,
   subnetIds: vpc.vpc_main.privateSubnetIds,
   scalingConfig: {
-    desiredSize: 1,
-    maxSize: 1,
+    desiredSize: 2,
+    maxSize: 2,
     minSize: 1,
   },
   updateConfig: {
