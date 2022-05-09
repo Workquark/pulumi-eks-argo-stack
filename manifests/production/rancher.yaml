@@ -1,20 +1,19 @@
-# ---
 # apiVersion: argoproj.io/v1alpha1
 # kind: Application
 # metadata:
-#   name: nginx-ingress
+#   name: rancher
 #   namespace: argocd
 #   finalizers:
 #     - resources-finalizer.argocd.argoproj.io
 # spec:
 #   project: production
 #   source:
-#     repoURL: https://github.com/kubernetes/ingress-nginx.git
+#     path: rancher/chart
+#     repoURL: https://github.com/rancher/rancher.git
 #     targetRevision: HEAD
-#     path: deploy/static/provider/aws
 #   destination:
+#     namespace: cattle-system
 #     server: https://kubernetes.default.svc
-#     namespace: ingress-nginx
 #   syncPolicy:
 #     automated:
 #       selfHeal: true

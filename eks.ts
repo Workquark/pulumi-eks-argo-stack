@@ -1,11 +1,11 @@
 import * as eks from "@pulumi/eks";
 import * as vpc from "./vpc";
 import * as aws from "@pulumi/aws";
-import * as pulumi from "@pulumi/pulumi"
 
 // Create an EKS cluster with the default configuration.
 export const pulumiEKSCluster = new eks.Cluster("Pulumi-EKS", {
   name: "PULUMI-EKS-CLUSTER-01",
+  version: "1.22.6",
   skipDefaultNodeGroup: true,
   vpcId: vpc.vpc_main.id,
   // publicSubnetIds: vpc.vpc_main.publicSubnetIds,

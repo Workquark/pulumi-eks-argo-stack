@@ -5,8 +5,8 @@ metadata:
   annotations:
     ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
-  #   ingress.kubernetes.io/rewrite-target: /
-  #   nginx.ingress.kubernetes.io/rewrite-target: /
+    # ingress.kubernetes.io/rewrite-target: /argocd
+    # nginx.ingress.kubernetes.io/rewrite-target: /argocd
 spec:
   ingressClassName: nginx
   rules:

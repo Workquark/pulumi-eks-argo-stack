@@ -8,3 +8,4 @@ spec:
       containers:
         - name: argocd-server
           command: [argocd-server, --staticassets, /shared/app, --insecure]
+# --rootpath=/argocd,
