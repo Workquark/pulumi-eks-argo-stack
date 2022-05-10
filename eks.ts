@@ -1,13 +1,17 @@
 import * as eks from "@pulumi/eks";
 import * as vpc from "./vpc";
 import * as aws from "@pulumi/aws";
+import { version } from "os";
 
 
 const eksVersion = "1.22"
+const clusterName = "PULUMI-EKS-CLUSTER-01"
+const eksOptimisedAMIId = "ami-0808f507c5d46608c"
 
 // Create an EKS cluster with the default configuration.
 export const pulumiEKSCluster = new eks.Cluster("Pulumi-EKS", {
-  name: "PULUMI-EKS-CLUSTER-01",
+  name: clusterName,
+  nodeAmiId: eksOptimisedAMIId,
   skipDefaultNodeGroup: true,
   version: eksVersion,
   vpcId: vpc.vpc_main.id,
@@ -19,6 +23,7 @@ export const pulumiEKSCluster = new eks.Cluster("Pulumi-EKS", {
   // maxSize: 2,
   endpointPrivateAccess: true,
   endpointPublicAccess: true,
+  nodeUserData: `/etc/eks/bootstrap.sh ${clusterName} --use-max-pods false --kubelet-extra-args '--max-pods=220'`,
   enabledClusterLogTypes: [
     "api",
     "audit",
@@ -65,7 +70,7 @@ const rolePolicyAttachments = policyArns.map(rolePolicyArn => {
 })
 
 const pulumiEksNodegroup = new aws.eks.NodeGroup("Pulumi-EKS-Nodegroup", {
-  nodeGroupName: "Pulumi-EKS-Nodegroup",
+  nodeGroupName: "Pulumi-EKS-Nodegroup-01",
   version: eksVersion,
   clusterName: pulumiEKSCluster.eksCluster.name,
   nodeRoleArn: nodeRole.arn,
@@ -75,9 +80,10 @@ const pulumiEksNodegroup = new aws.eks.NodeGroup("Pulumi-EKS-Nodegroup", {
     maxSize: 2,
     minSize: 1,
   },
+
   updateConfig: {
     maxUnavailable: 1,
-  },
+  }
 }, {
   dependsOn: rolePolicyAttachments
 });
