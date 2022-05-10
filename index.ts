@@ -5,4 +5,4 @@ import * as eks from "./eks";
 import { nginx } from "./nginx-ingress";
 
 const kubeconfig = eks.kubeconfig;
-const ingressControllerStatus = nginx;
+// const ingressControllerStatus = nginx;
