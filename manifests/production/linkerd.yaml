@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: istio
+  name: linkerd
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -11,13 +11,13 @@ spec:
   source:
     repoURL: https://github.com/Workquark/pulumi-eks-argo-stack.git
     targetRevision: HEAD
-    path: manifests/production/istio-manifests
+    path: manifests/production/linkerd
   destination:
     server: https://kubernetes.default.svc
-    namespace: istio-system
+    namespace: linkerd
   syncPolicy:
     automated:
       selfHeal: true
       prune: true
-    syncOptions:
-      - CreateNamespace=true
+    # syncOptions:
+    #   - CreateNamespace=true
