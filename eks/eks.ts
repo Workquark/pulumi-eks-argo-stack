@@ -1,5 +1,5 @@
 import * as eks from "@pulumi/eks";
-import * as vpc from "./vpc";
+import * as vpc from "../vpc";
 import * as aws from "@pulumi/aws";
 import { version } from "os";
 
