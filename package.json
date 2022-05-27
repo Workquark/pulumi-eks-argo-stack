@@ -1,13 +1,14 @@
 {
     "name": "pulumi-eks",
     "devDependencies": {
-        "@types/node": "^14"
+        "@types/node": "^14.18.18"
     },
     "dependencies": {
-        "@pulumi/aws": "^5.0.0",
+        "@pulumi/aws": "^5.4.0",
         "@pulumi/awsx": "^0.40.0",
-        "@pulumi/eks": "latest",
+        "@pulumi/command": "^0.1.0",
+        "@pulumi/eks": "^0.40.0",
         "@pulumi/kubernetes-ingress-nginx": "^0.0.1",
-        "@pulumi/pulumi": "^3.0.0"
+        "@pulumi/pulumi": "^3.33.1"
     }
 }

@@ -9,7 +9,7 @@ const clusterName = "PULUMI-EKS-CLUSTER-01"
 const eksOptimisedAMIId = "ami-0808f507c5d46608c"
 
 // Create an EKS cluster with the default configuration.
-export const pulumiEKSCluster = new eks.Cluster("Pulumi-EKS", {
+export const cluster = new eks.Cluster("Pulumi-EKS", {
   name: clusterName,
   nodeAmiId: eksOptimisedAMIId,
   skipDefaultNodeGroup: true,
@@ -72,7 +72,7 @@ const rolePolicyAttachments = policyArns.map(rolePolicyArn => {
 const pulumiEksNodegroup = new aws.eks.NodeGroup("Pulumi-EKS-Nodegroup", {
   nodeGroupName: "Pulumi-EKS-Nodegroup-01",
   version: eksVersion,
-  clusterName: pulumiEKSCluster.eksCluster.name,
+  clusterName: cluster.eksCluster.name,
   nodeRoleArn: nodeRole.arn,
   subnetIds: vpc.vpc_main.privateSubnetIds,
   scalingConfig: {
@@ -90,7 +90,7 @@ const pulumiEksNodegroup = new aws.eks.NodeGroup("Pulumi-EKS-Nodegroup", {
 
 ['vpc-cni', 'coredns', 'aws-ebs-csi-driver'].forEach(addon => {
   const addon_resource = new aws.eks.Addon(addon, {
-    clusterName: pulumiEKSCluster.eksCluster.name,
+    clusterName: cluster.eksCluster.name,
     addonName: addon,
   }, {
     deleteBeforeReplace: true
@@ -99,4 +99,4 @@ const pulumiEksNodegroup = new aws.eks.NodeGroup("Pulumi-EKS-Nodegroup", {
 
 
 // Export the cluster's kubeconfig.
-export const kubeconfig = pulumiEKSCluster.kubeconfig;
+// export const kubeconfig = pulumiEKSCluster.kubeconfig;
