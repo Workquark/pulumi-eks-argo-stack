@@ -88,7 +88,10 @@ const pulumiEksNodegroup = new aws.eks.NodeGroup("Pulumi-EKS-Nodegroup", {
   dependsOn: rolePolicyAttachments
 });
 
-['vpc-cni', 'coredns', 'aws-ebs-csi-driver'].forEach(addon => {
+
+// Removed aws-ebs-csi-driver for now .
+
+['vpc-cni', 'coredns'/*, 'aws-ebs-csi-driver'*/].forEach(addon => {
   const addon_resource = new aws.eks.Addon(addon, {
     clusterName: cluster.eksCluster.name,
     addonName: addon,
