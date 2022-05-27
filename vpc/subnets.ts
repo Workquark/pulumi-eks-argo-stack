@@ -1,5 +1,5 @@
 import * as aws from "@pulumi/aws";
-import { pulumiEKSCluster } from "../eks/eks";
+import { cluster } from "../eks";
 import { vpc_main } from "./vpc";
 
 const rawAzInfo = aws.getAvailabilityZones({
@@ -15,7 +15,8 @@ rawAzInfo.then(az_results => {
 // let numberOfAZs: number = azNames.length;
 
 
-const subnets = [];
+const subnets: aws.ec2.Subnet[] = [];
+
 for (let i = 0; i < numberOfAZs; i++) {
     let subnetAddr: number = i * 32;
     let netAddr: string = "100.64.";
@@ -29,7 +30,7 @@ for (let i = 0; i < numberOfAZs; i++) {
         vpcId: vpc_main.id,
         tags: {
             Name: `EKS-VPC-pod-subnet-${i + 1}`,
-            [`kubernetes.io/cluster/${pulumiEKSCluster.eksCluster.name}`]: "shared",
+            [`kubernetes.io/cluster/${cluster.eksCluster.name}`]: "shared",
         },
     }));
 };
