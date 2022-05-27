@@ -93,6 +93,8 @@ oidc_thumbprint.stdout.apply(thumbprint => {
                         "eks.amazonaws.com/role-arn": saRole.arn
                     }
                 }
+            }, {
+                provider: k8sProvider
             })
 
             const ingressClass = new k8s.networking.v1.IngressClass(awsWebIdentityRoleName, {

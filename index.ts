@@ -3,10 +3,11 @@ import * as aws from "@pulumi/aws";
 import * as awsx from "@pulumi/awsx";
 import * as eks from "./eks/eks";
 import * as oidc_iam from "./eks/alb";
-// import * as sn from "./subnets";
+import * as vpc from "./vpc";
 
 
 const cluster = eks.cluster;
+const podsubnets = vpc.podsubnets;
 // const role = oidc_iam.saRole;
 // const sa = oidc_iam.sa;
 // const sarpa = oidc_iam.saS3Rpa;
