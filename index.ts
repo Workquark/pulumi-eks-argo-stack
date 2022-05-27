@@ -1,8 +1,8 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
 import * as awsx from "@pulumi/awsx";
-import * as eks from "./eks";
-import * as oidc_iam from "./alb";
+import * as eks from "./eks/eks";
+import * as oidc_iam from "./eks/alb";
 // import * as sn from "./subnets";
 
 
