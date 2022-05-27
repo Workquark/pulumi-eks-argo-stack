@@ -33,7 +33,18 @@
 
     - nginx ingress
     - sealed secrets 
-## This is a good title
----
+## Get The cluster config 
 
-    $ kubectl get pods
+    $ CLUSTER_NAME=$(aws eks list-clusters | jq  -r ".clusters | first")
+    $ VPC_ID=$(aws ec2 describe-vpcs | 
+    
+## Apply ALB ingress controller
+
+    helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller \
+      -n kube-system \
+      --set clusterName=$CLUSTER_NAME \
+      --set serviceAccount.create=false \
+      --set serviceAccount.name=alb-ingress-controller \
+      --set region=eu-west-1 \
+      --set vpcId=$VPC_ID \  
+      --set image.repository=602401143452.dkr.ecr.eu-west-1.amazonaws.com/amazon/aws-load-balancer-controller

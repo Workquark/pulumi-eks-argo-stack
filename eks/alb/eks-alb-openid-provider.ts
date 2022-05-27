@@ -5,6 +5,7 @@ import { cluster } from "../eks";
 import { alb_policy } from "./alb-policy";
 
 import * as k8s from "@pulumi/kubernetes";
+import { vpc_main } from "../../vpc";
 
 
 const k8sProvider = new k8s.Provider('k8s', {
@@ -110,6 +111,29 @@ oidc_thumbprint.stdout.apply(thumbprint => {
                     controller: "ingress.k8s.aws/alb"
                 }
             }, { provider: k8sProvider })
+
+            const albIngressController = new k8s.helm.v3.Chart("aws-alb-ingress-controller", {
+                fetchOpts: {
+                    repo: "https://aws.github.io/eks-charts"
+                },
+                chart: "aws-load-balancer-controller",
+                version: "1.4.2",
+                values: {
+                    clusterName: cluster.eksCluster.name,
+                    serviceAccount: {
+                        name: saName,
+                        create: false
+                    },
+                    region: "eu-west-1",
+                    vpcId: vpc_main.id,
+                    image: {
+                        repository: "602401143452.dkr.ecr.eu-west-1.amazonaws.com/amazon/aws-load-balancer-controller"
+                    }
+                },
+                namespace: "kube-system"
+            }, {
+                provider: k8sProvider
+            });
 
             // This is a demo ingress - 
             const ingress = new k8s.networking.v1.Ingress("alb-ingress", {
