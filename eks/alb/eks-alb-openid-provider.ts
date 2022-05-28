@@ -26,8 +26,7 @@ export class OidcComponentsDeploy extends pulumi.ComponentResource {
     public saRole!: aws.iam.Role;
 
     private defaultOpenIdConnectProvider!: aws.iam.OpenIdConnectProvider;
-    private thumbprint: pulumi.Output<string>;
-    private clusterOidcProviderUrl: pulumi.Output<string>;
+
 
     getThumbPrint(thumbprint: string): string {
         return thumbprint;
