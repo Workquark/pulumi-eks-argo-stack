@@ -2,6 +2,9 @@ import * as eks from "@pulumi/eks";
 import * as vpc from "../vpc";
 import * as aws from "@pulumi/aws";
 import { version } from "os";
+import { ArgoCD } from "./argocd";
+import * as alb from "./alb";
+
 
 
 const eksVersion = "1.22"
@@ -89,9 +92,28 @@ const pulumiEksNodegroup = new aws.eks.NodeGroup("Pulumi-EKS-Nodegroup", {
 });
 
 
+const argocd = new ArgoCD("argocd-deployments", {
+  cluster: cluster
+}, {
+  dependsOn: [cluster]
+});
+
+
+const oidc_components = new alb.OidcComponentsDeploy("alb-oidc-components", {})
+
+const nginxDeployment = new alb.DeployALBComponents("alb-backend-deployment", {
+  serviceAccountName: oidc_components.saName,
+  serviceAccountRoleArn: oidc_components.saRole.arn,
+  namespace: "kube-system",
+  awsWebIdentityRoleName: oidc_components.awsWebIdentityRoleName,
+  cluster: cluster
+}, {
+  dependsOn: [cluster, oidc_components]
+});
+
 // Removed aws-ebs-csi-driver for now .
 
-['vpc-cni', 'coredns'/*, 'aws-ebs-csi-driver'*/].forEach(addon => {
+['vpc-cni' /*, 'coredns'/*, 'aws-ebs-csi-driver'*/].forEach(addon => {
   const addon_resource = new aws.eks.Addon(addon, {
     clusterName: cluster.eksCluster.name,
     addonName: addon,

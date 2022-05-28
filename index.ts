@@ -12,7 +12,7 @@ const podsubnets = vpc.podsubnets;
 // const sa = oidc_iam.sa;
 // const sarpa = oidc_iam.saS3Rpa;
 const oidc_iam_resources = oidc_iam;
-const OpenIdConnectProvider = oidc_iam.defaultOpenIdConnectProvider;
+// const OpenIdConnectProvider = oidc_iam.defaultOpenIdConnectProvider;
 
 
 // import { nginx } from "./nginx-ingress";
