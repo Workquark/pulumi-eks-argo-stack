@@ -1,8 +1,10 @@
 import { alb_policy } from "./alb-policy";
-import { alb_role } from "./alb-role";
-import { defaultOpenIdConnectProvider } from "./eks-alb-openid-provider";
+import { OidcComponentsDeploy } from "./eks-alb-openid-provider";
+import { DeployALBComponents } from "./deploy-alb-components";
+
+
 export {
     alb_policy,
-    // alb_role,
-    defaultOpenIdConnectProvider
+    OidcComponentsDeploy,
+    DeployALBComponents
 }
